@@ -47,17 +47,18 @@ th {
   padding: 1rem;
 }
 
-button {
+/* button {
   width: 5rem;
   margin: 0.5rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  text-decoration: underline;
 }
 button:hover {
   background-color: black;
   color: white;
-}
+} */
 
 .form-field {
   margin: 1rem;
