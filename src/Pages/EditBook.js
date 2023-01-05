@@ -1,28 +1,29 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addBook } from './BooksSlice';
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { updateBook } from '../Features/Books/BooksSlice';
 
-const AddBook = () => {
-    const dispatch = useDispatch();
+const EditBook = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
-    const numberOfBooks = useSelector(state => state.booksReducer.books.length)
-    const handleAddBook = (e) => {
+    const location = useLocation();
+    const { title, author, id } = location?.state;
+
+    const handleUpdateBook = (e) => {
         e.preventDefault();
         const form = e.target;
         const title = form.title.value;
         const author = form.author.value;
-        const book = { id: uuidv4(), title, author }
-        dispatch(addBook(book));
-        navigate('/books-view', { replace: true });
+        const book = { id, title, author };
+        dispatch(updateBook(book));
         form.reset();
+        navigate('/books-view', { replace: true })
     }
 
     return (
         <div>
-            <h2>Add Book</h2>
-            <form onSubmit={handleAddBook}>
+            <h2>Edit Book</h2>
+            <form onSubmit={handleUpdateBook}>
                 <div className='mb-4 mt-3'>
                     <label
                         className='block text-sm font-medium mb-1'>Title</label>
@@ -32,6 +33,7 @@ const AddBook = () => {
                         name="title"
                         placeholder='Title'
                         required
+                        defaultValue={title}
                     />
                 </div>
                 <div className='mb-2'>
@@ -43,11 +45,12 @@ const AddBook = () => {
                         name="author"
                         placeholder='Author'
                         required
+                        defaultValue={author}
                     />
                 </div>
                 <div className='mt-5'>
                     <button type='submit' className='bg-gray-400 hover:bg-gray-700 duration-200 hover:text-white py-3 px-4 rounded-md w-full text-sm font-medium'>
-                        Add
+                        Update
                     </button>
                 </div>
             </form>
@@ -55,4 +58,4 @@ const AddBook = () => {
     );
 };
 
-export default AddBook;
+export default EditBook;
